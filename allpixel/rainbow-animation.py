@@ -1,8 +1,6 @@
 #load the AllPixel driver. Works for LEDStrip AND LEDMatrix
 from bibliopixel.drivers.serial_driver import *
-from bibliopixel.drivers.visualizer import *
-driver = DriverSerial(num = 50, type = LEDTYPE.WS2812B)
-# driver = DriverVisualizer(width = 50, height = 50, pixelSize = 15)
+driver = DriverSerial(num = 8*8, type = LEDTYPE.WS2812B)
 
 #import the bibliopixel base classes
 from bibliopixel import *
@@ -13,17 +11,17 @@ class BasicAnimTest(BaseStripAnim):
         #do any initialization here
 
     def step(self, amt = 1):
-        for i in range(50):
+        for i in range(8*8):
             self._led.set(i, colors.hue2rgb((i*4+self._step)%256))
-	self._step += amt
+        self._step += amt
 
 
 #Now try with LEDStrip
-led = LEDMatrix(driver)
+led = LEDStrip(driver)
 
 try:
     anim = BasicAnimTest(led)
-    anim.run(fps=50)
+    anim.run(fps=45)
 except KeyboardInterrupt:
     #turn everything off if Ctrl+C is pressed
     led.all_off()
