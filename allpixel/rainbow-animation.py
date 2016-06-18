@@ -1,8 +1,8 @@
 #load the AllPixel driver. Works for LEDStrip AND LEDMatrix
 from bibliopixel.drivers.serial_driver import *
 from bibliopixel.drivers.visualizer import *
-# driver = DriverSerial(num = 50, type = LEDTYPE.WS2812B)
-driver = DriverVisualizer(width = 50, height = 50, pixelSize = 15)
+driver = DriverSerial(num = 50, type = LEDTYPE.WS2812B)
+# driver = DriverVisualizer(width = 50, height = 50, pixelSize = 15)
 
 #import the bibliopixel base classes
 from bibliopixel import *
