@@ -1,3 +1,4 @@
+import argparse
 from bibliopixel.drivers.serial_driver import *
 from bibliopixel.drivers.visualizer import *
 from bibliopixel import colors
@@ -13,23 +14,38 @@ from BiblioPixelAnimations.strip import PixelPingPong
 from BiblioPixelAnimations.strip import Wave
 from BiblioPixelAnimations.strip import ColorPattern
 
-# total leds
-ledstringnum = 169
+parser = argparse.ArgumentParser()
+parser.add_argument("--ledtype", help="LED type.  `ws` or `apa`.", action="store", default="ws")
+parser.add_argument("--ledcount", help="Count of LED lights.", action="store", default=10, type=int)
+parser.add_argument("--animation", help="Name of animation.", action="store", default="rainbow")
+parser.add_argument("--framerate", help="set framerate.", action="store", type=int, default=60)
+args = parser.parse_args()
 
-#init driver with the type and count of LEDs you're using
-driver = DriverSerial(type=LEDTYPE.WS2812B, num=ledstringnum)
-# driver = DriverVisualizer(width = 10, height = 10)
+# switch LED type of necessary
+if args.ledtype == 'apa':
+	ledtype = LEDTYPE.APA102
+else:
+	ledtype = LEDTYPE.WS2812B
 
-#init controller
+# initialize led strip and driver
+driver = DriverSerial(type=ledtype, num=args.ledcount)
 led = LEDStrip(driver)
 
 # colors 
 rainbow = [colors.Red, colors.Orange, colors.Yellow, colors.Green, colors.Blue, colors.Purple]
 binary = [colors.Blue, colors.White]
 
+# depending on arg, run selected animation
+if args.animation == "whitetwinkle":
+	anim = WhiteTwinkle.WhiteTwinkle(led)
+elif args.animation == "larsonscanners":
+	anim = LarsonScanners.LarsonScanner(led, colors.Red)
+else:
+	anim = Rainbows.RainbowCycle(led)
+
 #init animation; replace with whichever animation you'd like to use
 # anim = Rainbows.RainbowCycle(led)
-anim = WhiteTwinkle.WhiteTwinkle(led)
+# anim = WhiteTwinkle.WhiteTwinkle(led)
 # anim = FireFlies.FireFlies(led, rainbow)
 # anim = LarsonScanners.LarsonScanner(led, colors.Red)
 # anim = LarsonScanners.LarsonRainbow(led)
@@ -40,7 +56,7 @@ anim = WhiteTwinkle.WhiteTwinkle(led)
 
 try:
     #run the animation
-    anim.run(fps=60)
+    anim.run(fps=args.framerate)
 except KeyboardInterrupt:
     #Ctrl+C will exit the animation and turn the LEDs offs
     led.all_off()
