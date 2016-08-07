@@ -1,6 +1,10 @@
 #load the AllPixel driver. Works for LEDStrip AND LEDMatrix
 from bibliopixel.drivers.serial_driver import *
-driver = DriverSerial(num = 8*8, type = LEDTYPE.WS2812B)
+from bibliopixel.drivers.visualizer import *
+
+# choose between the two drivers
+# driver = DriverSerial(num = 100, type = LEDTYPE.WS2812B)
+driver = DriverVisualizer(width = 50, height = 50)
 
 #import the bibliopixel base classes
 from bibliopixel import *
@@ -11,7 +15,7 @@ class BasicAnimTest(BaseStripAnim):
         #do any initialization here
 
     def step(self, amt = 1):
-        for i in range(8*8):
+        for i in range(100):
             self._led.set(i, colors.hue2rgb((i*4+self._step)%256))
         self._step += amt
 

@@ -9,8 +9,8 @@ import argparse
 
 from FFT_Audio_Animation import EQ, BassPulse
 
-w = 10
-h = 5
+w = 25
+h = 25
 print "Pixel Count: {}".format(w*h)
 
 parser = argparse.ArgumentParser()
