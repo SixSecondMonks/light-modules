@@ -101,7 +101,7 @@ class YellowTwinkle(BaseStripAnim):
         if len(self.activeLeds) < self.density:
             if r == 0 and g == 0 and b == 0:
                 # add to active directory
-                self.activeLeds[idx] = self.create_from_preselected_colors_led_direction()
+                self.activeLeds[idx] = self.create_random_color_led_direction()
 
     def step(self, amt = 1):
         # The direction of fade is determined by the red value of the led color
